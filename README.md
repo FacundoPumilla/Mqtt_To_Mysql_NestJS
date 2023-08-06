@@ -5,11 +5,11 @@
 ## Descripcion
 
 - Cliente capturador de paquetes MQTT
-- El controlador captura todos los topicos.
+- El controlador por defecto captura todos los topicos `'#'`
 - Para diferenciar los topicos debe agregarlos en controlador `sensor/sensor.controller.ts`
 - `sensor/sensor_dto.ts` contiene el ejemplo de datoa recibidos
 - `sensor/sensor_entity.ts` en la tabla que se genera con sus respectivas columnas
-## Installacion
+## Instalacion
 - Basado en un servidor Linux/GNU Debian 11
 - Actualizar los paquetes
 ```bash
@@ -30,19 +30,18 @@ sudo npm install pm2@latest -g
 ```
 - Clonar el proyecto en la ubicacion seleccionada
 ```bash
-git clone
+git clone https://github.com/FacundoPumilla/Mqtt_To_Mysql_NestJS
 ```
 - Instalar el proyecto
 ```bash
-cd mqqt-test
+cd Mqtt_To_Mysql_NestJS
 npm install
 ```
 
 ## Archivo ENV
-- Renombrar el archivo `example.ev a .env`
-- Completar los datos necesarios del archivo
-
-- DB_TYPE= Tipo de base de datos a utulizar (ej mysql)
+1. Renombrar el archivo `example.env a .env`
+2. Completar los datos necesarios del archivo
+- DB_TYPE= Tipo de base de datos a utilizar (ej mysql)
 - DB_HOST= Direccion ip o dominio del servidor de base de datos
 - DB_PORT= Puerto de conexion a la base de datos
 - DB_USER= Nombre de usuario de acceso a la base de datos
