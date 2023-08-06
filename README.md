@@ -2,72 +2,75 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Descripcion
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
+- Cliente capturador de paquetes MQTT
+- El controlador captura todos los topicos.
+- Para diferenciar los topicos debe agregarlos en controlador `sensor/sensor.controller.ts`
+- `sensor/sensor_dto.ts` contiene el ejemplo de datoa recibidos
+- `sensor/sensor_entity.ts` en la tabla que se genera con sus respectivas columnas
+## Installacion
+- Basado en un servidor Linux/GNU Debian 11
+- Actualizar los paquetes
 ```bash
-$ npm install
+sudo apt update
+```
+- Instalar Nodejs y NPM
+```bash
+sudo apt install nodejs npm
+```
+- Verificar la version de node
+```bash
+node -v
+```
+- Instalar nestjs/cli y pm2
+```bash
+sudo npm i -g @nestjs/cli
+sudo npm install pm2@latest -g
+```
+- Clonar el proyecto en la ubicacion seleccionada
+```bash
+git clone
+```
+- Instalar el proyecto
+```bash
+cd mqqt-test
+npm install
 ```
 
-## Running the app
+## Archivo ENV
+- Renombrar el archivo `example.ev a .env`
+- Completar los datos necesarios del archivo
 
+- DB_TYPE= Tipo de base de datos a utulizar (ej mysql)
+- DB_HOST= Direccion ip o dominio del servidor de base de datos
+- DB_PORT= Puerto de conexion a la base de datos
+- DB_USER= Nombre de usuario de acceso a la base de datos
+- DB_PASS= Password de acceso a la base de datos
+- DB_NAME= Nombre de la base de datos a utilizar para persistir datos
+
+- MQTT_URL= direccion del broker MQTT (mqtt://IP)
+- MQTT_USER= usuario para acceso si es necesario
+- MQTT_PASS= password para acceso si es necesario
+- MQTT_ID= Id que se le da al cliente en ejecucion
+- MQTT_PORT= Puerto donde se ejecuta el microservicio mqtt (ej 1883)
+- APP_PORT= Puerto donde se ejecuta el microservicio http
+
+## Corriendo la aplicacion
+
+- Construir
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run build
 ```
-
-## Test
-
+- Correr la aplicacion
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+pm2 start dist/main.js --<nombre_aplicacion>
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- Para que la aplicacion inicie automaticamente
+```bash
+pm2 startup systemd
+```
+- Para monitorizar la aplicacion
+```bash
+pm2 monit
+```
