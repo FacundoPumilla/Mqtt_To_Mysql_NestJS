@@ -63,7 +63,7 @@ npm run build
 ```
 - Correr la aplicacion
 ```bash
-pm2 start dist/main.js --<nombre_aplicacion>
+pm2 start dist/main.js --name <nombre_aplicacion>
 ```
 - Para que la aplicacion inicie automaticamente
 ```bash
