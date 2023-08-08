@@ -34,4 +34,11 @@ export class SensorEntity {
 
   @Column()
   error: number;
+
+  @Column({
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
+    type: 'timestamp',
+  })
+  timestamp;
 }
