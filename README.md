@@ -73,3 +73,7 @@ pm2 startup systemd
 ```bash
 pm2 monit
 ```
+
+## SWAGGER OpenAPI
+- Una vez la aplicacion este corriendo visualice los endpoint usando la direccion `http://{url}:{APP_PORT}/swagger`
+- Para descargar la documentacion en formato json use la direccion `http://{url}:{APP_PORT}/swagger-json`

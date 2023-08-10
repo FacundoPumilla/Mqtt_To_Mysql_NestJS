@@ -2,12 +2,21 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const ht = await NestFactory.create(AppModule);
-  const configService = ht.get(ConfigService);
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
 
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+  const configService = app.get(ConfigService);
+
+  const mqtt = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
       transport: Transport.MQTT,
@@ -20,7 +29,18 @@ async function bootstrap() {
       },
     },
   );
-  await app.listen();
-  await ht.listen(configService.get<number>('APP_PORT'));
+  await mqtt.listen();
+
+  const config = new DocumentBuilder()
+    .setTitle('MQTT CLIENT')
+    .setDescription('backend for mqtt client and API Rest')
+    .setVersion('1.0')
+    .addTag('mqtt')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('swagger', app, document);
+
+  await app.listen(configService.get<number>('APP_PORT'));
 }
 bootstrap();
