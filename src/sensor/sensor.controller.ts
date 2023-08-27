@@ -6,9 +6,10 @@ import {
   MqttContext,
   Payload,
 } from '@nestjs/microservices';
-import { SensorDto } from './sensor_dto';
-
+import { SensorDto } from './dto/sensor_dto';
+import { ApiTags } from '@nestjs/swagger';
 @Controller('sensor')
+@ApiTags('DataAfterInit')
 export class SensorController {
   constructor(private readonly sensorService: SensorService) {}
 
@@ -16,10 +17,11 @@ export class SensorController {
   async getNotifi(@Payload() payload: SensorDto, @Ctx() context: MqttContext) {
     try {
       if (!payload.mac) {
-        console.log('payload ERROR');
+        console.log(payload);
       } else {
-        console.log(`Topico recibido: ${context.getTopic()}`);
-        console.log(await this.sensorService.newDataSensor(payload));
+        console.log(`Topico recibido : ${context.getTopic()}`);
+        console.log(payload);
+        //this.sensorService.responseMqttControl(`Control_${context.getTopic()}`);
       }
     } catch (error) {
       throw new Error(`Error ${error}`);

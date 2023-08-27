@@ -1,9 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
 
 import { SensorService } from './sensor/sensor.service';
-import { SensorEntity } from './sensor/sensor_entity';
+import { SensorEntity } from './sensor/entities/sensor_entity';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller()
+@ApiTags('HOME')
 export class AppController {
   constructor(private readonly sensorService: SensorService) {}
 

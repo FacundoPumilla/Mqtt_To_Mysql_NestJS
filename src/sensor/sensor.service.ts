@@ -1,15 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SensorEntity } from './sensor_entity';
+import { SensorEntity } from './entities/sensor_entity';
 import { Repository } from 'typeorm';
-import { SensorDto } from './sensor_dto';
-
+import { SensorDto } from './dto/sensor_dto';
+import { MqttService } from 'src/mqtt/mqtt.service';
+import { MqttResponseDto } from 'src/control/dto/mqtt-response.dto';
 @Injectable()
 export class SensorService {
   constructor(
     @InjectRepository(SensorEntity)
     private sensorService: Repository<SensorEntity>,
+    private mqttService: MqttService,
   ) {}
+
+  async responseMqttControl(macControl: string) {
+    const response: MqttResponseDto = {
+      date: (Math.floor(Date.now() / 1000) + 10).toString(),
+      wi_u: 'gato',
+      wi_p: 'fuera',
+      pe_r: 5,
+      status: true,
+    };
+    console.log(`Dentro de function  ${this.responseMqttControl.name}`);
+    this.mqttService.mqttSendResponseJsonToControlMac(macControl, response);
+
+    // const publishMqtt = mqtt.connect(this.mqtt_options);
+    // let date = Date.now();
+    // date = Math.floor(date / 1000) + 10;
+    // const json = JSON.stringify({ date: date.toString() });
+    // publishMqtt.publish(macControl, json);
+  }
 
   async findAll(): Promise<SensorEntity[]> {
     return await this.sensorService.find({
