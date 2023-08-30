@@ -19,6 +19,7 @@ import { GetUser, rawHeaders } from './decorators/get-user.decorator';
 import { UserRoleGuard } from './guards/user-role/user-role.guard';
 import { RoleProtected } from './decorators/role-protected.decorator';
 import { validRoles } from './interfaces/valid-roles';
+import { Auth } from './decorators/auth.decorator';
 
 @Controller('auth')
 @ApiTags('Usuarios')
@@ -57,6 +58,15 @@ export class AuthController {
   @RoleProtected(validRoles.user)
   @UseGuards(AuthGuard(), UserRoleGuard)
   privateRoute2(@GetUser() user: UserEntity) {
+    return {
+      ok: true,
+      user,
+    };
+  }
+
+  @Get('private3')
+  @Auth(validRoles.user)
+  privateRoute3(@GetUser('email') user: UserEntity) {
     return {
       ok: true,
       user,

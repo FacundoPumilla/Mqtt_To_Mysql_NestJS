@@ -1,8 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { UserEntity } from 'src/auth/entities/auth.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -41,4 +43,7 @@ export class ControlEntity {
 
   @UpdateDateColumn({ type: 'datetime', precision: 0 })
   update_at: Date;
+
+  @ManyToOne(() => UserEntity, (user) => user.control, { eager: true })
+  user: UserEntity;
 }

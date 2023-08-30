@@ -38,11 +38,15 @@ export class ControlController {
     return this.controlService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: initControlDto) {
-    this.controlService.findControlToResponseMqtt(id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: initControlDto) {
+  //   this.controlService.findControlToResponseMqtt(id);
+  // }
 
+  @Get(':id')
+  findByUserId(@Param('id') id: string) {
+    return this.controlService.findAllByUserId(id);
+  }
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateControlDto: UpdateControlDto) {
     return this.controlService.update(+id, updateControlDto);

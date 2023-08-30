@@ -1,9 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ControlEntity } from 'src/control/entities/control.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -32,6 +34,9 @@ export class UserEntity {
   @ApiProperty()
   @Column({ type: 'simple-array', default: 'user' })
   roles: string[];
+
+  @OneToMany(() => ControlEntity, (control) => control.user)
+  control: ControlEntity;
 
   @BeforeInsert()
   checkFieldsBeforeInsert() {

@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, TypeORMError } from 'typeorm';
 import { MqttResponseDto } from './dto/mqtt-response.dto';
 import { MqttService } from 'src/mqtt/mqtt.service';
+import { UserEntity } from 'src/auth/entities/auth.entity';
 
 @Injectable()
 export class ControlService {
@@ -29,8 +30,8 @@ export class ControlService {
     }
   }
 
-  findAll() {
-    return `This action returns all control`;
+  async findAll() {
+    return await this.controlService.find();
   }
 
   async finOneByMacAndImei(data: initControlDto): Promise<ControlEntity> {
@@ -43,6 +44,19 @@ export class ControlService {
       });
     } catch (error) {
       throw new TypeORMError(error);
+    }
+  }
+
+  async findAllByUserId(userId: string) {
+    try {
+      return await this.controlService.find({
+        relations: { user: true },
+        where: { user: { id: userId } },
+      });
+    } catch (error) {
+      throw new TypeORMError(
+        `no se encontro controles con user id ${userId} ${error}`,
+      );
     }
   }
 
