@@ -2,12 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { CreateControlDto } from './dto/create-control.dto';
 import { UpdateControlDto } from './dto/update-control.dto';
 import { ControlEntity } from './entities/control.entity';
-import { initControlDto } from './dto/init-control.dto';
+import { InitControlDto } from './dto/init-control.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, TypeORMError } from 'typeorm';
 import { MqttResponseDto } from './dto/mqtt-response.dto';
 import { MqttService } from 'src/mqtt/mqtt.service';
-import { UserEntity } from 'src/auth/entities/auth.entity';
 
 @Injectable()
 export class ControlService {
@@ -34,7 +33,7 @@ export class ControlService {
     return await this.controlService.find();
   }
 
-  async finOneByMacAndImei(data: initControlDto): Promise<ControlEntity> {
+  async finOneByMacAndImei(data: InitControlDto): Promise<ControlEntity> {
     try {
       return await this.controlService.findOne({
         where: {
@@ -60,7 +59,7 @@ export class ControlService {
     }
   }
 
-  async findControlToResponseMqtt(json: initControlDto) {
+  async findControlToResponseMqtt(json: InitControlDto) {
     try {
       let response: MqttResponseDto = {
         date: '0',
@@ -68,6 +67,7 @@ export class ControlService {
         wi_p: '',
         pe_r: 5,
         status: false,
+        tok: '',
       };
 
       const control = await this.finOneByMacAndImei(json);
@@ -83,6 +83,7 @@ export class ControlService {
           wi_p: control.wifi_pass,
           pe_r: control.period_report,
           status: control.is_active,
+          tok: '',
         };
         console.log(`EL control ${control.mac_address} Init_Ok`);
       }

@@ -15,4 +15,7 @@ export class MqttResponseDto {
 
   @ApiProperty()
   status: boolean;
+
+  @ApiProperty()
+  tok: string;
 }

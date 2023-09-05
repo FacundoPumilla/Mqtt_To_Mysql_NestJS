@@ -6,14 +6,16 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { DataloggerDataEntity } from './datalogger-data.entity';
 
-@Entity('control')
-export class ControlEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+@Entity('datalogger')
+export class DataloggerEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ApiProperty()
   @Column('varchar', { length: 50, default: 'coldmind' })
@@ -32,10 +34,6 @@ export class ControlEntity {
   mac_address: string;
 
   @ApiProperty()
-  @Column('varchar', { length: 30 })
-  imei: string;
-
-  @ApiProperty()
   @Column({ default: false })
   is_active: boolean;
 
@@ -45,10 +43,13 @@ export class ControlEntity {
   @UpdateDateColumn({ type: 'datetime', precision: 0 })
   update_at: Date;
 
-  @ManyToOne(() => UserEntity, (user) => user.control, {
+  @ManyToOne(() => UserEntity, (user) => user.datalogger, {
     eager: true,
     cascade: true,
   })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
+
+  @OneToMany(() => DataloggerDataEntity, (data) => data.datalogger)
+  data: DataloggerDataEntity[];
 }

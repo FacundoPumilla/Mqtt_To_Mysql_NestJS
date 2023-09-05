@@ -13,7 +13,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { ControlService } from './control.service';
 import { CreateControlDto } from './dto/create-control.dto';
 import { UpdateControlDto } from './dto/update-control.dto';
-import { initControlDto } from './dto/init-control.dto';
+import { InitControlDto } from './dto/init-control.dto';
 
 @Controller('control')
 @ApiTags('Controles')
@@ -21,7 +21,7 @@ export class ControlController {
   constructor(private readonly controlService: ControlService) {}
 
   @MessagePattern('control/init')
-  initControlForMqtt(@Payload() json: initControlDto) {
+  initControlForMqtt(@Payload() json: InitControlDto) {
     const ControlEntity = this.controlService.findControlToResponseMqtt(json);
     console.log(`Entro en iniControlForMqtt, payload -> `);
     console.log(json);

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ControlEntity } from 'src/control/entities/control.entity';
+import { DataloggerEntity } from 'src/datalogger/entities/datalogger.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -36,7 +37,10 @@ export class UserEntity {
   roles: string[];
 
   @OneToMany(() => ControlEntity, (control) => control.user)
-  control: ControlEntity;
+  control: ControlEntity[];
+
+  @OneToMany(() => DataloggerEntity, (datalogger) => datalogger.user)
+  datalogger: DataloggerEntity[];
 
   @BeforeInsert()
   checkFieldsBeforeInsert() {

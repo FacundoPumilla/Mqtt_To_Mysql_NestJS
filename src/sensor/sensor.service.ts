@@ -20,6 +20,7 @@ export class SensorService {
       wi_p: 'fuera',
       pe_r: 5,
       status: true,
+      tok: '',
     };
     console.log(`Dentro de function  ${this.responseMqttControl.name}`);
     this.mqttService.mqttSendResponseJsonToControlMac(macControl, response);

@@ -13,7 +13,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class SensorController {
   constructor(private readonly sensorService: SensorService) {}
 
-  @MessagePattern('#')
+  @MessagePattern('sensor/#')
   async getNotifi(@Payload() payload: SensorDto, @Ctx() context: MqttContext) {
     try {
       if (!payload.mac) {

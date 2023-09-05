@@ -1,8 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class InitControlDto {
+export class InitDataloggerDto {
   @ApiProperty()
   readonly mac: string;
-  @ApiProperty()
-  readonly imei: string;
 }
