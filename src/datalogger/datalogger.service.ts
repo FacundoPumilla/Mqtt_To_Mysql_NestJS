@@ -17,46 +17,60 @@ export class DataloggerService {
     private mqttService: MqttService,
   ) {}
 
-  async findOneDataloggerByMac(mac: string): Promise<DataloggerEntity> {
+  async findOneDataloggerById(uuid: string): Promise<DataloggerEntity> {
     try {
       return await this.dataloggerService.findOne({
-        where: { mac_address: mac },
+        where: { id: uuid },
+      });
+    } catch (error) {
+      throw new TypeORMError(`Error del servicio: ${error}`);
+    }
+  }
+  /**
+   * @Brief Busca la entidad DataLogger por mac, chipId y flashId
+   * @param data InitDataloggerDto
+   * @returns DataloggerEntity
+   */
+  async findOneDataloggerBy_Mac_Chip_Flash(
+    data: InitDataloggerDto,
+  ): Promise<DataloggerEntity> {
+    try {
+      return await this.dataloggerService.findOne({
+        where: {
+          mac_address: data.mac,
+          chip_id: data.chip,
+          flash_id: data.flash,
+        },
       });
     } catch (error) {
       throw new TypeORMError(`Error del servicio: ${error}`);
     }
   }
 
-  async findDataloggerToResponseMqtt(json: InitDataloggerDto) {
+  async initDataloggerAndResponseMqtt(json: InitDataloggerDto) {
     try {
-      let response: MqttResponseDto = {
-        date: '0',
-        wi_u: '',
-        wi_p: '',
-        pe_r: 5,
-        status: false,
-        tok: '',
-      };
+      let response = new MqttResponseDto();
 
-      const datalogger = await this.findOneDataloggerByMac(json.mac);
+      const datalogger = await this.findOneDataloggerBy_Mac_Chip_Flash(json);
 
       if (!datalogger) {
         console.log(`El Datalogger MQTT -> ${json.mac} no existe en DB`);
       } else if (datalogger.is_active) {
         const date = Math.floor(Date.now() / 1000) + 10;
-        const token = bcrypt.hashSync(json.mac, 10);
+
+        await this.updateSsidPass(datalogger, json);
+        // const token = bcrypt.hashSync(json.mac, 10);
+        const token = datalogger.id;
         response = {
           date: date.toString(),
-          wi_u: datalogger.wifi_ssid,
-          wi_p: datalogger.wifi_pass,
-          pe_r: datalogger.period_report,
-          status: datalogger.is_active,
-          tok: token,
+          peri: datalogger.period_report,
+          stat: datalogger.is_active,
+          toke: token,
         };
         console.log(`El Datalogger ${json.mac} inicio correctamente`);
       }
       const topic = process.env.TOPIC_INIT + json.mac;
-      this.mqttService.mqttSendResponseJsonToControlMac(topic, response);
+      return this.mqttService.mqttSendResponseJsonToControlMac(topic, response);
     } catch (error) {
       console.log(error);
     }
@@ -84,6 +98,15 @@ export class DataloggerService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} datalogger`;
+    return `This action removes a #${id} dataloggers`;
+  }
+
+  private async updateSsidPass(
+    datalogger: DataloggerEntity,
+    data: InitDataloggerDto,
+  ) {
+    datalogger.wifi_ssid = data.ssid;
+    datalogger.wifi_pass = data.pass;
+    return await this.dataloggerService.save(datalogger);
   }
 }

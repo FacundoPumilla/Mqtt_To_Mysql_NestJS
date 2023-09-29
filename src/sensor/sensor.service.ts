@@ -16,11 +16,9 @@ export class SensorService {
   async responseMqttControl(macControl: string) {
     const response: MqttResponseDto = {
       date: (Math.floor(Date.now() / 1000) + 10).toString(),
-      wi_u: 'gato',
-      wi_p: 'fuera',
-      pe_r: 5,
-      status: true,
-      tok: '',
+      peri: 5,
+      stat: true,
+      toke: '',
     };
     console.log(`Dentro de function  ${this.responseMqttControl.name}`);
     this.mqttService.mqttSendResponseJsonToControlMac(macControl, response);

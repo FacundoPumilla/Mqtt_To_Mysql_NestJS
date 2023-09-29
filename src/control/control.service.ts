@@ -63,11 +63,9 @@ export class ControlService {
     try {
       let response: MqttResponseDto = {
         date: '0',
-        wi_u: '',
-        wi_p: '',
-        pe_r: 5,
-        status: false,
-        tok: '',
+        peri: 5,
+        stat: false,
+        toke: '',
       };
 
       const control = await this.finOneByMacAndImei(json);
@@ -79,11 +77,9 @@ export class ControlService {
         date = Math.floor(date / 1000) + 10;
         response = {
           date: date.toString(),
-          wi_u: control.wifi_ssid,
-          wi_p: control.wifi_pass,
-          pe_r: control.period_report,
-          status: control.is_active,
-          tok: '',
+          peri: control.period_report,
+          stat: control.is_active,
+          toke: '',
         };
         console.log(`EL control ${control.mac_address} Init_Ok`);
       }

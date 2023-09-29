@@ -34,6 +34,14 @@ export class DataloggerEntity {
   mac_address: string;
 
   @ApiProperty()
+  @Column({ type: 'integer' })
+  chip_id: number;
+
+  @ApiProperty()
+  @Column({ type: 'integer' })
+  flash_id: number;
+
+  @ApiProperty()
   @Column({ default: false })
   is_active: boolean;
 
@@ -50,6 +58,6 @@ export class DataloggerEntity {
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
-  @OneToMany(() => DataloggerDataEntity, (data) => data.datalogger)
+  @OneToMany(() => DataloggerDataEntity, (data) => data.datalogger_id)
   data: DataloggerDataEntity[];
 }

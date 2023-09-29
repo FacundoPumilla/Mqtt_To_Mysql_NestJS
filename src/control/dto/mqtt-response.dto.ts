@@ -5,17 +5,11 @@ export class MqttResponseDto {
   date: string;
 
   @ApiProperty()
-  wi_u: string;
+  peri: number;
 
   @ApiProperty()
-  wi_p: string;
+  stat: boolean;
 
   @ApiProperty()
-  pe_r: number;
-
-  @ApiProperty()
-  status: boolean;
-
-  @ApiProperty()
-  tok: string;
+  toke: string;
 }

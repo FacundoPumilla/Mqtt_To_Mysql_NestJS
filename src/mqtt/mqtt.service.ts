@@ -23,5 +23,6 @@ export class MqttService {
   ) {
     const publishToMqtt = mqtt.connect(this.mqtt_options);
     publishToMqtt.publish(mac_number, JSON.stringify(response));
+    return publishToMqtt.getLastMessageId();
   }
 }

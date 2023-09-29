@@ -1,8 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNumber, IsObject, IsString } from 'class-validator';
-import { DataloggerEntity } from '../entities/datalogger.entity';
+import { IsBoolean, IsNumber, IsString } from 'class-validator';
 
-export class CreateDataloggerDataDto {
+export class PreCreateDataloggerDataDto {
   @ApiProperty()
   @IsString()
   readonly token: string;
@@ -18,8 +17,4 @@ export class CreateDataloggerDataDto {
   @ApiProperty()
   @IsNumber()
   readonly error: number;
-
-  @ApiProperty()
-  @IsObject()
-  readonly datalogger_id: DataloggerEntity;
 }

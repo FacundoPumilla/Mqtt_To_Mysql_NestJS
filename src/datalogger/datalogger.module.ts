@@ -4,10 +4,15 @@ import { DataloggerController } from './datalogger.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataloggerEntity } from './entities/datalogger.entity';
 import { MqttModule } from 'src/mqtt/mqtt.module';
+import { DataloggerDataService } from './datalogger-data.service';
+import { DataloggerDataEntity } from './entities/datalogger-data.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([DataloggerEntity]), MqttModule],
+  imports: [
+    TypeOrmModule.forFeature([DataloggerEntity, DataloggerDataEntity]),
+    MqttModule,
+  ],
   controllers: [DataloggerController],
-  providers: [DataloggerService],
+  providers: [DataloggerService, DataloggerDataService],
 })
 export class DataloggerModule {}

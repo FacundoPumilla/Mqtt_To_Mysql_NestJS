@@ -13,7 +13,7 @@ export class DataloggerDataEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'float', precision: 5, scale: 2 })
   temperatura: number;
 
   @Column()
@@ -27,5 +27,5 @@ export class DataloggerDataEntity {
 
   @ManyToOne(() => DataloggerEntity, (datalogger) => datalogger.data)
   @JoinColumn({ name: 'datalogger_id' })
-  datalogger: DataloggerEntity;
+  datalogger_id: DataloggerEntity;
 }

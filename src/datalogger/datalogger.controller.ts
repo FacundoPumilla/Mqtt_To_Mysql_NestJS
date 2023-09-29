@@ -18,29 +18,48 @@ import {
   Payload,
 } from '@nestjs/microservices';
 import { InitDataloggerDto } from './dto/init-datalogger.dto';
-import { CreateDataloggerDataDto } from './dto/create-dataloggerData.dto';
+import { DataloggerDataService } from './datalogger-data.service';
+import { PreCreateDataloggerDataDto } from './dto/preCreate-dataloggerDataDto';
 
 @Controller('datalogger')
 @ApiTags('datalogger')
 export class DataloggerController {
-  constructor(private readonly dataloggerService: DataloggerService) {}
+  constructor(
+    private readonly dataloggerService: DataloggerService,
+    private readonly dataloggerDataService: DataloggerDataService,
+  ) {}
 
   @MessagePattern('datalogger/init')
-  initDataloggerForMqtt(@Payload() json: InitDataloggerDto) {
+  async initDataloggerForMqtt(@Payload() json: InitDataloggerDto) {
     console.log('Entro en datalogger/Init, payload: ');
     console.log(json);
     const DataloggerEntity =
-      this.dataloggerService.findDataloggerToResponseMqtt(json);
+      await this.dataloggerService.initDataloggerAndResponseMqtt(json);
     console.log(DataloggerEntity);
   }
 
   @MessagePattern('datalogger/sendData/#')
-  receiveDatFromDatalogger(
-    @Payload() payload: CreateDataloggerDataDto,
+  async receiveDataFromDatalogger(
+    @Payload() payload,
     @Ctx() context: MqttContext,
   ) {
     console.log(context.getTopic());
     console.log(payload);
+    const byteSize = (payload) => new Blob([payload]).size;
+    console.log(byteSize(payload));
+    this.createData(
+      await this.dataloggerDataService.dataFromDataloggerToDto(payload),
+    );
+  }
+
+  @Post('createData')
+  createData(@Body() data: PreCreateDataloggerDataDto) {
+    try {
+      console.log(data);
+      return this.dataloggerDataService.create(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   @Post()
