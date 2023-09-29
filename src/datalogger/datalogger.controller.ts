@@ -44,9 +44,9 @@ export class DataloggerController {
     @Ctx() context: MqttContext,
   ) {
     console.log(context.getTopic());
-    console.log(payload);
-    const byteSize = (payload) => new Blob([payload]).size;
-    console.log(byteSize(payload));
+    // console.log(payload);
+    // const byteSize = (payload) => new Blob([payload]).size;
+    // console.log(byteSize(payload));
     this.createData(
       await this.dataloggerDataService.dataFromDataloggerToDto(payload),
     );
@@ -55,7 +55,7 @@ export class DataloggerController {
   @Post('createData')
   createData(@Body() data: PreCreateDataloggerDataDto) {
     try {
-      console.log(data);
+      // console.log(data);
       return this.dataloggerDataService.create(data);
     } catch (error) {
       console.log(error);

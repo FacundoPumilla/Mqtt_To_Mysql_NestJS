@@ -32,6 +32,10 @@ sudo npm install pm2@latest -g
 ```bash
 git clone https://github.com/FacundoPumilla/Mqtt_To_Mysql_NestJS
 ```
+- Cambiar a la rama de produccion
+```bash
+git checkout <Nombre-rama>
+```
 - Instalar el proyecto
 ```bash
 cd Mqtt_To_Mysql_NestJS
