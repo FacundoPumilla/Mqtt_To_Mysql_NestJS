@@ -55,17 +55,16 @@ export class DataloggerService {
 
       if (!datalogger) {
         console.log(`El Datalogger MQTT -> ${json.mac} no existe en DB`);
-      } else if (datalogger.is_active) {
+      } else {
         const date = Math.floor(Date.now() / 1000) + 10;
 
         await this.updateSsidPass(datalogger, json);
         // const token = bcrypt.hashSync(json.mac, 10);
-        const token = datalogger.id;
         response = {
           date: date.toString(),
           peri: datalogger.period_report,
           stat: datalogger.is_active,
-          toke: token,
+          toke: datalogger.id,
         };
         console.log(`El Datalogger ${json.mac} inicio correctamente`);
       }
