@@ -51,12 +51,9 @@ export class DataloggerEntity {
   @UpdateDateColumn({ type: 'datetime', precision: 0 })
   update_at: Date;
 
-  @ManyToOne(() => UserEntity, (user) => user.datalogger, {
-    eager: true,
-    cascade: true,
-  })
+  @ManyToOne(() => UserEntity, (user) => user.datalogger)
   @JoinColumn({ name: 'user_id' })
-  user: UserEntity;
+  user_id: UserEntity;
 
   @OneToMany(() => DataloggerDataEntity, (data) => data.datalogger_id)
   data: DataloggerDataEntity[];

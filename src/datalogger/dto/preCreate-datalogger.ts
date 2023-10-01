@@ -1,14 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsString } from 'class-validator';
+import { IsBoolean, IsInt, IsString, IsUUID } from 'class-validator';
 
-export class CreateControlDto {
+export class preCreateDataloggerDto {
   @ApiProperty()
   @IsString()
   readonly mac_address: string;
 
   @ApiProperty()
-  @IsString()
-  readonly imei: string;
+  @IsInt()
+  readonly chip_id: number;
+
+  @ApiProperty()
+  @IsInt()
+  readonly flash_id: number;
 
   @ApiProperty()
   @IsBoolean()
@@ -21,4 +25,8 @@ export class CreateControlDto {
   @ApiProperty()
   @IsString()
   readonly wifi_pass: string;
+
+  @ApiProperty()
+  @IsUUID()
+  readonly userId: string;
 }

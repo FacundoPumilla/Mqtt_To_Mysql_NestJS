@@ -8,7 +8,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/auth.entity';
-import { Repository } from 'typeorm';
+import { Repository, TypeORMError } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
@@ -62,8 +62,14 @@ export class AuthService {
     return `This action returns all auth`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+  async findOneById(uuid: string): Promise<UserEntity> {
+    try {
+      return await this.userRepository.findOne({
+        where: { id: uuid },
+      });
+    } catch (error) {
+      throw new TypeORMError(`Error del servicio: ${error}`);
+    }
   }
 
   update(id: number, updateAuthDto: UpdateAuthDto) {

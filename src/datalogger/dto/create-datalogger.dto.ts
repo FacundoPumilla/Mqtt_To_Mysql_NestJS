@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsInt, IsString, IsUUID } from 'class-validator';
+import { UserEntity } from 'src/auth/entities/auth.entity';
 
 export class CreateDataloggerDto {
   @ApiProperty()
@@ -28,5 +29,5 @@ export class CreateDataloggerDto {
 
   @ApiProperty()
   @IsUUID()
-  readonly userId: string;
+  readonly user_id: UserEntity;
 }

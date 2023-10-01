@@ -2,11 +2,6 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
-import { AppController } from './app.controller';
-import { SensorModule } from './sensor/sensor.module';
-import { SensorEntity } from './sensor/entities/sensor_entity';
-import { ControlModule } from './control/control.module';
-import { ControlEntity } from './control/entities/control.entity';
 import { MqttService } from './mqtt/mqtt.service';
 import { MqttModule } from './mqtt/mqtt.module';
 import { AuthModule } from './auth/auth.module';
@@ -28,22 +23,13 @@ import { DataloggerDataEntity } from './datalogger/entities/datalogger-data.enti
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
-      entities: [
-        SensorEntity,
-        ControlEntity,
-        UserEntity,
-        DataloggerEntity,
-        DataloggerDataEntity,
-      ],
+      entities: [UserEntity, DataloggerEntity, DataloggerDataEntity],
       synchronize: true,
     }),
-    SensorModule,
-    ControlModule,
     MqttModule,
     AuthModule,
     DataloggerModule,
   ],
-  controllers: [AppController],
   providers: [MqttService],
 })
 export class AppModule {}

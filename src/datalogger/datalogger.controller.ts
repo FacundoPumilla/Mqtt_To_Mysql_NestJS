@@ -8,7 +8,6 @@ import {
   Delete,
 } from '@nestjs/common';
 import { DataloggerService } from './datalogger.service';
-import { CreateDataloggerDto } from './dto/create-datalogger.dto';
 import { UpdateDataloggerDto } from './dto/update-datalogger.dto';
 import { ApiTags } from '@nestjs/swagger';
 import {
@@ -20,6 +19,7 @@ import {
 import { InitDataloggerDto } from './dto/init-datalogger.dto';
 import { DataloggerDataService } from './datalogger-data.service';
 import { PreCreateDataloggerDataDto } from './dto/preCreate-dataloggerDataDto';
+import { preCreateDataloggerDto } from './dto/preCreate-datalogger';
 
 @Controller('datalogger')
 @ApiTags('datalogger')
@@ -63,13 +63,19 @@ export class DataloggerController {
   }
 
   @Post()
-  create(@Body() createDataloggerDto: CreateDataloggerDto) {
+  create(@Body() createDataloggerDto: preCreateDataloggerDto) {
     return this.dataloggerService.create(createDataloggerDto);
   }
 
   @Get()
   findAll() {
     return this.dataloggerService.findAll();
+  }
+
+  @Get('/:user_id')
+  findOneByUserId(@Param('user_id') id: string) {
+    console.log(`el uuid recibido es ${id}`);
+    return this.dataloggerService.findOneByUserId(id);
   }
 
   @Get(':id')

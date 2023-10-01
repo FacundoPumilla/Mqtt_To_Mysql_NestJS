@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MqttResponseDto } from 'src/control/dto/mqtt-response.dto';
+import { MqttResponseDto } from 'src/mqtt/dto/mqtt-response.dto';
 import * as mqtt from 'mqtt';
 
 @Injectable()
