@@ -29,7 +29,7 @@ export class DataloggerController {
     private readonly dataloggerDataService: DataloggerDataService,
   ) {}
 
-  @MessagePattern('datalogger_init')
+  @MessagePattern('datalogger/init')
   async initDataloggerForMqtt(@Payload() json: InitDataloggerDto) {
     console.log('Entro en - datalogger_init -, payload: ');
     console.log(json);
@@ -38,7 +38,7 @@ export class DataloggerController {
     console.log(DataloggerEntity);
   }
 
-  @MessagePattern('datalogger/#')
+  @MessagePattern('datalogger/data/#')
   async receiveDataFromDatalogger(
     @Payload() payload,
     @Ctx() context: MqttContext,

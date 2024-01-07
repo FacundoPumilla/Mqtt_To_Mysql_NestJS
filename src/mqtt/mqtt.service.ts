@@ -5,10 +5,10 @@ import * as mqtt from 'mqtt';
 @Injectable()
 export class MqttService {
   mqtt_options = {
-    host: `mqtt://` + process.env.MQTT_URL,
-    clientId: process.env.MQTT_ID,
-    username: process.env.MQTT_USER,
-    password: process.env.MQTT_PASS,
+    host: process.env.MQTT_URL,
+    clientId: process.env.PUBLISH_ID,
+    username: process.env.PUBLISH_USER,
+    password: process.env.PUBLISH_PASS,
     port: parseInt(process.env.MQTT_PORT),
   };
 
@@ -22,8 +22,10 @@ export class MqttService {
     response: MqttResponseDto,
   ) {
     console.log(`Se envio 1 msj aL TOPICO: ` + mac_number);
-    console.log(response);
+    // console.log(response);
+    // console.log(this.mqtt_options);
     const publishToMqtt = mqtt.connect(this.mqtt_options);
+    // const publishToMqtt = mqtt.connect(this.mqtt_options);
     publishToMqtt.publish(mac_number, JSON.stringify(response));
     return publishToMqtt.getLastMessageId();
   }

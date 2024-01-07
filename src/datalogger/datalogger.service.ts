@@ -86,7 +86,7 @@ export class DataloggerService {
           stat: datalogger.is_active,
           toke: datalogger.id,
         };
-        console.log(`El Datalogger ${json.mac} inicio correctamente`);
+        console.log(`El Datalogger ${json.mac} inicio correctamente!`);
       }
       const topic = process.env.TOPIC_INIT + json.mac;
       return this.mqttService.mqttSendResponseJsonToControlMac(topic, response);

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsString, MaxLength } from 'class-validator';
+import { IsArray, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class CreatePrecargaiotDto {
   @ApiProperty()
@@ -20,10 +20,10 @@ export class CreatePrecargaiotDto {
   readonly password: string;
 
   @ApiProperty()
-  @IsArray()
+  @IsOptional()
   readonly publish_acl: string;
 
   @ApiProperty()
-  @IsArray()
+  @IsOptional()
   readonly subscribe_acl: string;
 }

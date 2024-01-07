@@ -25,6 +25,13 @@ El servidor una vez levantado quedara escuchando peticiones en el puerto 1883 (p
 En la direccion `http://{IP}:8888/status` se pódra ver con una periosidad de 5 segundos el estado del servidor y los clientes conectados.  
 Se encuentra configurado para usar con autorizacion mediante usuario y contraseña frente a una base de datos MYSQL.
 
+
+## Columna ACL de vmq_auth_acl
+Columna `publish_acl` array de topicos permitidos para publicar por tal cliente.  
+Columna `subscribe_acl` array de topicos permitidos para recibir por tal cliente.  
+```{"pattern":"a/b/c"},{"pattern":"datalogger/#"}```
+
+
 ## Futuras modificaciones
 - Logging de errores
 - Logging de accesos
