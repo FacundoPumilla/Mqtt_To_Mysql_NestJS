@@ -5,11 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { MqttService } from './mqtt/mqtt.service';
 import { MqttModule } from './mqtt/mqtt.module';
 import { AuthModule } from './auth/auth.module';
-import { UserEntity } from './auth/entities/auth.entity';
 import { DataloggerModule } from './datalogger/datalogger.module';
-import { DataloggerEntity } from './datalogger/entities/datalogger.entity';
-import { DataloggerDataEntity } from './datalogger/entities/datalogger-data.entity';
-
+import { PrecargaiotModule } from './precargaiot/precargaiot.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -23,12 +20,14 @@ import { DataloggerDataEntity } from './datalogger/entities/datalogger-data.enti
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
-      entities: [UserEntity, DataloggerEntity, DataloggerDataEntity],
+      retryDelay: parseInt(process.env.DB_RETRY_DELAY),
+      autoLoadEntities: true,
       synchronize: true,
     }),
     MqttModule,
     AuthModule,
     DataloggerModule,
+    PrecargaiotModule,
   ],
   providers: [MqttService],
 })

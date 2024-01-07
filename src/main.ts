@@ -39,6 +39,7 @@ async function bootstrap() {
         password: configService.get('MQTT_PASS'),
         clientId: configService.get('MQTT_ID'),
         port: configService.get<number>('MQTT_PORT'),
+        reconnectPeriod: configService.get<number>('RECONNECTPERIOD'),
       },
     },
   );

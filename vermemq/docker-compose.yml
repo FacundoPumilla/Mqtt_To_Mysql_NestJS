@@ -1,0 +1,39 @@
+version: '3.3'
+services:
+
+#VERNEMQ
+  vernemq:
+    env_file: .env
+    image: vernemq/vernemq
+    ports:
+      - 1883:1883
+      - 8888:8888
+    expose:
+      - 1883
+    container_name: 'verme_mq'
+#    restart: always
+    environment:
+      DOCKER_VERNEMQ_ACCEPT_EULA: "yes"
+      DOCKER_VERNEMQ_ALLOW_ANONYMOUS: 'off'
+      DOCKER_VERNEMQ_PLUGINS.vmq_diversity: 'on'
+      DOCKER_VERNEMQ_PLUGINS.vmq_passwd: 'off'
+      DOCKER_VERNEMQ_PLUGINS.vmq_acl: 'on'
+      DOCKER_VERNEMQ_VMQ_ACL.acl_reload_interval: ${ACL_RELOAD_INTERVAL}
+      DOCKER_VERNEMQ_VMQ_DIVERSITY.auth_mysql.enabled: 'on'
+      DOCKER_VERNEMQ_VMQ_DIVERSITY.mysql.host: ${MYSQL_HOST}
+      DOCKER_VERNEMQ_VMQ_DIVERSITY.mysql.port: ${MYSQL_PORT}
+      DOCKER_VERNEMQ_VMQ_DIVERSITY.mysql.user: ${MYSQL_USER}
+      DOCKER_VERNEMQ_VMQ_DIVERSITY.mysql.password: ${MYSQL_PASS}
+      DOCKER_VERNEMQ_VMQ_DIVERSITY.mysql.database: ${MYSQL_DB}
+      DOCKER_VERNEMQ_VMQ_DIVERSITY.mysql.password_hash_method: ${MYSQL_HASH}
+      DOCKER_VERNEMQ_LOG.console: 'console'
+      DOCKER_VERNEMQ_LOG.console.level: 'info'
+#      DOCKER_VERNEMQ_VMQ.ACL_RELOAD_INTERVAL: '10'
+#      DOCKER_VERNEMQ_LOG.CONSOLE.FILE: './data/vernemq.log'
+#      DOCKER_VERNEMQ_LOG.ERROR.FILE: './data/errorvernemq.log'
+
+    volumes:
+      - data:/var/log/vernemq/
+
+volumes:
+  data:
