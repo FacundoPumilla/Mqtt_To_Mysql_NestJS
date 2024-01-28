@@ -42,7 +42,7 @@ export class AuthController {
   testinPrivateRoute(
     @GetUser() user: UserEntity,
     // @GetUser('id') userEmail: string,
-    // @rawHeaders() raw: string,
+    // @rawHeaders() raw: string[],
   ) {
     return {
       ok: true,
