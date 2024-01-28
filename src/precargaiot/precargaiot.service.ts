@@ -19,6 +19,12 @@ export class PrecargaiotService {
       const data = this.precargaiotRepository.create({
         ...iotData,
         password: md5(password),
+        publish_acl:
+          `${process.env.MQT_ACL_CDL_PUB_DEFAULT},${process.env.MQT_ACL_CDL_SUB_DEFAULT}` +
+          createPrecargaiotDto.client_id,
+        subscribe_acl:
+          `${process.env.MQT_ACL_CDL_SUB_DEFAULT}` +
+          createPrecargaiotDto.client_id,
       });
       return await this.precargaiotRepository.save(data);
     } catch (error) {
@@ -26,8 +32,8 @@ export class PrecargaiotService {
     }
   }
 
-  findAll() {
-    return `This action returns all precargaiot`;
+  async findAll() {
+    return this.precargaiotRepository.find();
   }
 
   findOne(id: number) {

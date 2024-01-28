@@ -40,16 +40,16 @@ export class AuthController {
   @Get('private')
   @UseGuards(AuthGuard())
   testinPrivateRoute(
-    // @GetUser() user: UserEntity,
-    @GetUser('email') userEmail: string,
-    @rawHeaders() raw: string,
+    @GetUser() user: UserEntity,
+    // @GetUser('id') userEmail: string,
+    // @rawHeaders() raw: string,
   ) {
     return {
       ok: true,
       message: 'Nada pilluelo',
       // user,
-      userEmail,
-      raw,
+      id: user.id,
+      // raw,
     };
   }
 
@@ -76,15 +76,5 @@ export class AuthController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.authService.findOneById(id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
   }
 }

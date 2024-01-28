@@ -33,7 +33,7 @@ export class AuthService {
       delete user.password;
       return {
         ...user,
-        token: this.getJwtToken({ email: user.email, id: user.id }),
+        token: this.getJwtToken({ id: user.id }),
       };
     } catch (error) {
       this.handleDbErrors(error);
@@ -54,7 +54,7 @@ export class AuthService {
     }
     return {
       ...user,
-      token: this.getJwtToken({ email: user.email, id: user.id }),
+      token: this.getJwtToken({ id: user.id }),
     };
   }
 
@@ -70,14 +70,6 @@ export class AuthService {
     } catch (error) {
       throw new TypeORMError(`Error del servicio: ${error}`);
     }
-  }
-
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
   }
 
   private handleDbErrors(error: any): never {

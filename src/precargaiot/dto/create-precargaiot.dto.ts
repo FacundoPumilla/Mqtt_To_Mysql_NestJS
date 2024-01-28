@@ -5,7 +5,8 @@ export class CreatePrecargaiotDto {
   @ApiProperty()
   @IsString()
   @MaxLength(15)
-  readonly mountpoint: string;
+  @IsOptional()
+  readonly mountpoint: string = '';
 
   @ApiProperty()
   @IsString()

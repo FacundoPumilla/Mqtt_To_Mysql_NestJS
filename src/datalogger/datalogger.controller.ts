@@ -31,8 +31,8 @@ export class DataloggerController {
 
   @MessagePattern('datalogger/init')
   async initDataloggerForMqtt(@Payload() json: InitDataloggerDto) {
-    console.log('Entro en - datalogger_init -, payload: ');
-    console.log(json);
+    console.log(`TOPIC: datalogger/init - ${json.mac}`);
+    // console.log(json);
     const DataloggerEntity =
       await this.dataloggerService.initDataloggerAndResponseMqtt(json);
     console.log(DataloggerEntity);
@@ -43,7 +43,7 @@ export class DataloggerController {
     @Payload() payload,
     @Ctx() context: MqttContext,
   ) {
-    console.log(context.getTopic());
+    console.log(`TOPIC: ${context.getTopic()}`);
     // console.log(payload);
     // const byteSize = (payload) => new Blob([payload]).size;
     // console.log(byteSize(payload));
