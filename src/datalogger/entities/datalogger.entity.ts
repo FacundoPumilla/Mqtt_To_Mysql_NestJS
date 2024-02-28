@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserEntity } from 'src/auth/entities/auth.entity';
+import { User } from 'src/auth/entities/auth.entity';
 import {
   Column,
   CreateDateColumn,
@@ -51,9 +51,9 @@ export class DataloggerEntity {
   @UpdateDateColumn({ type: 'datetime', precision: 0 })
   update_at: Date;
 
-  @ManyToOne(() => UserEntity, (user) => user.datalogger)
+  @ManyToOne(() => User, (user) => user.datalogger)
   @JoinColumn({ name: 'user_id' })
-  user_id: UserEntity;
+  user_id: User;
 
   @OneToMany(() => DataloggerDataEntity, (data) => data.datalogger_id)
   data: DataloggerDataEntity[];
