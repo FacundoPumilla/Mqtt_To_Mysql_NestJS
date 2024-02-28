@@ -6,7 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const app_http = await NestFactory.create(AppModule);
+  const app_http = await NestFactory.create(AppModule, { cors: true });
   app_http.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
