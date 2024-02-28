@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 
 @Entity('user')
-export class UserEntity {
+export class User {
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   id: string;

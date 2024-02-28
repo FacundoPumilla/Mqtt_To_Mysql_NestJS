@@ -34,6 +34,6 @@ services:
 
     volumes:
       - data:/var/log/vernemq/
-
+    command: /bin/bash "vmq-admin api-key add key=${API_KEY}"
 volumes:
   data:
